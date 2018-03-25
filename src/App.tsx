@@ -10,6 +10,11 @@ class App extends React.Component {
     let kindleService = new KindleService();
     const series = kindleService.getKindleComicSeries();
 
+    const records = [];
+    for (let i = 0; i < series.length; i++) {
+      records.push(<Record key={i} kindleComicSeries={series[i]} />);
+    }
+
     return (
       <div className="App">
         <header className="App-header">
@@ -19,9 +24,7 @@ class App extends React.Component {
         <p className="App-intro">
           To get started, edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <Record kindleComicSeries={series[0]} />
-        <Record kindleComicSeries={series[1]} />
-        <Record kindleComicSeries={series[2]} />
+        {records}
       </div>
     );
   }

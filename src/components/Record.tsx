@@ -14,6 +14,7 @@ class Record extends React.Component<Props> {
       .sort((a, b) => {
         return a.publicationDate.getTime() - b.publicationDate.getTime();
       });
+
     const numbers = sortedComics.map(comic => {
       return comic.title
         .replace(this.props.kindleComicSeries.titleLeft, '')

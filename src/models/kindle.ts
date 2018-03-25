@@ -2,7 +2,7 @@ export interface KindleComic {
   id: number;
   title: string;
   author: string;
-  publication_date: Date;
+  publicationDate: Date;
 }
 
 export interface KindleComicSeries {
@@ -10,5 +10,5 @@ export interface KindleComicSeries {
   titleRight: string;
   author: string;
   comics: KindleComic[];
-  publication_interval_days: number;
+  publicationIntervalDays: number;
 }

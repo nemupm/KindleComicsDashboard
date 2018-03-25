@@ -22,7 +22,7 @@ export class KindleService {
         id: comics.length,
         title: metaData.getElementsByTagName('title')[0].value.trim(),
         author: metaData.getElementsByTagName('author')[0].value.trim(),
-        publication_date: new Date(
+        publicationDate: new Date(
           metaData.getElementsByTagName('publication_date')[0].value.trim()
         )
       };
@@ -255,7 +255,7 @@ export class KindleService {
         titleRight: '',
         author: seriesComics[0].author,
         comics: seriesComics,
-        publication_interval_days: DEFAULT_INTERVAL_DAYS
+        publicationIntervalDays: DEFAULT_INTERVAL_DAYS
       };
 
       if (seriesComics.length === 1) {
@@ -271,8 +271,8 @@ export class KindleService {
           seriesComics[1].title,
           false
         );
-        kindleComicSeries.publication_interval_days = this.calculateAverageIntervalDays(
-          seriesComics.map(comic => comic.publication_date)
+        kindleComicSeries.publicationIntervalDays = this.calculateAverageIntervalDays(
+          seriesComics.map(comic => comic.publicationDate)
         );
       }
 

@@ -1,18 +1,42 @@
 import * as React from 'react';
 import './App.css';
-import { KindleService } from './services/KindleService';
+import { KindleService, DEFAULT_XML_PATH } from './services/KindleService';
 import Record from './components/Record';
+import { KindleComicSeries } from './models/kindle';
 
 const logo = require('./logo.svg');
 
-class App extends React.Component {
-  render() {
-    let kindleService = new KindleService();
-    const series = kindleService.getKindleComicSeries();
+interface Props {}
 
+interface State {
+  series: KindleComicSeries[];
+}
+
+class App extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = { series: [] };
+  }
+
+  readFile(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = () => {
+      const kindleService = new KindleService(reader.result);
+      this.setState({
+        series: kindleService.getKindleComicSeries()
+      });
+    };
+  }
+
+  render() {
     const records = [];
-    for (let i = 0; i < series.length; i++) {
-      records.push(<Record key={i} kindleComicSeries={series[i]} />);
+    for (let i = 0; i < this.state.series.length; i++) {
+      records.push(<Record key={i} kindleComicSeries={this.state.series[i]} />);
     }
 
     return (
@@ -21,10 +45,13 @@ class App extends React.Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        {records}
+        <div>
+          <div>Open {DEFAULT_XML_PATH}</div>
+          <div>
+            <input type="file" onChange={e => this.readFile(e)} />
+          </div>
+        </div>
+        <div>{records}</div>
       </div>
     );
   }

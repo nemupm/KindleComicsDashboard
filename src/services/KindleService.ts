@@ -5,17 +5,24 @@ const MAX_DISTANCE = 3;
 const DEFAULT_INTERVAL_DAYS = 180;
 const DAY_MILLISECONDS = 60 * 60 * 24 * 1000;
 
+export const DEFAULT_XML_PATH =
+  '~/Library/Containers/com.amazon.Kindle/Data/Library/Application Support/Kindle/Cache/KindleSyncMetadataCache.xml';
+
 export class KindleService {
+  xmlString: string;
+
+  constructor(xmlString: string) {
+    this.xmlString = xmlString;
+  }
+
   public getKindleComicSeries(): KindleComicSeries[] {
     const comics = this.getAllKindleComics();
     return this.generateKindleComicSeriesFromKindleComics(comics);
   }
 
   public getAllKindleComics(): KindleComic[] {
-    const xmlString = this.getKindleXML();
-
     // parse xml
-    let xml = new XMLParser().parseFromString(xmlString);
+    let xml = new XMLParser().parseFromString(this.xmlString);
     const comics = [];
     for (const metaData of xml.getElementsByTagName('meta_data')) {
       const comic: KindleComic = {
@@ -29,215 +36,6 @@ export class KindleService {
       comics.push(comic);
     }
     return comics;
-  }
-
-  public getKindleXML() {
-    return `
-            <response>
-                <sync_time>
-                    SYNC_TIME
-                </sync_time>
-                <cache_metadata>
-                    <version>
-                        1
-                    </version>
-                </cache_metadata>
-                <add_update_list>
-                    <meta_data>
-                        <asin>
-                            ASIN
-                        </asin>
-                        <title pronunciation="title">
-                            TITLE_LEFT（１）TITLE_RIGHT
-                        </title>
-                        <authors>
-                            <author pronunciation="author">
-                                AUTHOR
-                            </author>
-                        </authors>
-                        <publishers>
-                            <publisher>
-                                PUBLISHER
-                            </publisher>
-                        </publishers>
-                        <publication_date>
-                            2017-12-04T00:00:00+0000
-                        </publication_date>
-                        <purchase_date>
-                            2017-12-04T00:00:00+0000
-                        </purchase_date>
-                        <textbook_type>
-                        </textbook_type>
-                        <cde_contenttype>
-                            EBOK
-                        </cde_contenttype>
-                        <content_type>
-                            application/x-mobipocket-ebook
-                        </content_type>
-                    </meta_data>
-                    <meta_data>
-                        <asin>
-                            ASIN
-                        </asin>
-                        <title pronunciation="title">
-                            TITLE_LEFT（２）TITLE_RIGHT
-                        </title>
-                        <authors>
-                            <author pronunciation="author">
-                                AUTHOR
-                            </author>
-                        </authors>
-                        <publishers>
-                            <publisher>
-                                PUBLISHER
-                            </publisher>
-                        </publishers>
-                        <publication_date>
-                            2018-03-16T00:00:00+0000
-                        </publication_date>
-                        <purchase_date>
-                            2018-03-16T00:00:00+0000
-                        </purchase_date>
-                        <textbook_type>
-                        </textbook_type>
-                        <cde_contenttype>
-                            EBOK
-                        </cde_contenttype>
-                        <content_type>
-                            application/x-mobipocket-ebook
-                        </content_type>
-                    </meta_data>
-                    <meta_data>
-                        <asin>
-                            ASIN
-                        </asin>
-                        <title pronunciation="title">
-                            TITLE_LEFT（３）TITLE_RIGHT
-                        </title>
-                        <authors>
-                            <author pronunciation="author">
-                                AUTHOR
-                            </author>
-                        </authors>
-                        <publishers>
-                            <publisher>
-                                PUBLISHER
-                            </publisher>
-                        </publishers>
-                        <publication_date>
-                            2018-06-16T00:00:00+0000
-                        </publication_date>
-                        <purchase_date>
-                            2018-06-16T00:00:00+0000
-                        </purchase_date>
-                        <textbook_type>
-                        </textbook_type>
-                        <cde_contenttype>
-                            EBOK
-                        </cde_contenttype>
-                        <content_type>
-                            application/x-mobipocket-ebook
-                        </content_type>
-                    </meta_data>
-                    <meta_data>
-                        <asin>
-                            ASIN
-                        </asin>
-                        <title pronunciation="title">
-                            TITLE 第1巻
-                        </title>
-                        <authors>
-                            <author pronunciation="author">
-                                著者
-                            </author>
-                        </authors>
-                        <publishers>
-                            <publisher>
-                                出版社
-                            </publisher>
-                        </publishers>
-                        <publication_date>
-                            2018-04-05T00:00:00+0000
-                        </publication_date>
-                        <purchase_date>
-                            2018-04-06T00:00:00+0000
-                        </purchase_date>
-                        <textbook_type>
-                        </textbook_type>
-                        <cde_contenttype>
-                            EBOK
-                        </cde_contenttype>
-                        <content_type>
-                            application/x-mobipocket-ebook
-                        </content_type>
-                    </meta_data>
-                    <meta_data>
-                        <asin>
-                            ASIN
-                        </asin>
-                        <title pronunciation="title">
-                            TITLE 第2巻
-                        </title>
-                        <authors>
-                            <author pronunciation="author">
-                                著者
-                            </author>
-                        </authors>
-                        <publishers>
-                            <publisher>
-                                出版社
-                            </publisher>
-                        </publishers>
-                        <publication_date>
-                            2018-09-05T00:00:00+0000
-                        </publication_date>
-                        <purchase_date>
-                            2018-09-06T00:00:00+0000
-                        </purchase_date>
-                        <textbook_type>
-                        </textbook_type>
-                        <cde_contenttype>
-                            EBOK
-                        </cde_contenttype>
-                        <content_type>
-                            application/x-mobipocket-ebook
-                        </content_type>
-                    </meta_data>
-                    <meta_data>
-                        <asin>
-                            ASIN
-                        </asin>
-                        <title pronunciation="title">
-                            INDEPENDENT TITLE
-                        </title>
-                        <authors>
-                            <author pronunciation="author">
-                                CHOSHA
-                            </author>
-                        </authors>
-                        <publishers>
-                            <publisher>
-                                SHUPPANSHA
-                            </publisher>
-                        </publishers>
-                        <publication_date>
-                            2018-01-05T00:00:00+0000
-                        </publication_date>
-                        <purchase_date>
-                            2018-01-06T00:00:00+0000
-                        </purchase_date>
-                        <textbook_type>
-                        </textbook_type>
-                        <cde_contenttype>
-                            EBOK
-                        </cde_contenttype>
-                        <content_type>
-                            application/x-mobipocket-ebook
-                        </content_type>
-                    </meta_data>
-                </add_update_list>
-            </response>
-            `;
   }
 
   private generateKindleComicSeriesFromKindleComics(

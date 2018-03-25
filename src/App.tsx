@@ -1,10 +1,15 @@
 import * as React from 'react';
 import './App.css';
+import { KindleService } from './services/KindleService';
 
 const logo = require('./logo.svg');
 
 class App extends React.Component {
   render() {
+    let kindleService = new KindleService();
+    const series = kindleService.getKindleComicSeries();
+    console.log(series);
+
     return (
       <div className="App">
         <header className="App-header">

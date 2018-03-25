@@ -3,8 +3,12 @@ import './Table.css';
 import { KindleComicSeries } from '../models/kindle';
 import Record from './Record';
 
-interface Props {
+export interface Props {
   series: KindleComicSeries[];
+  filters: {
+    minimumVolumes: number;
+    onlyNextVolumePublished: boolean;
+  };
 }
 
 class Table extends React.Component<Props> {

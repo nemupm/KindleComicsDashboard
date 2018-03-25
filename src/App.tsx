@@ -43,10 +43,12 @@ class App extends React.Component<Props, State> {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Kindle Comics Dashboard</h1>
         </header>
         <div>
-          <div>Open {DEFAULT_XML_PATH}</div>
+          <div>
+            Open the following file.<pre>{DEFAULT_XML_PATH}</pre>
+          </div>
           <div>
             <input type="file" onChange={e => this.readFile(e)} />
           </div>

@@ -1,10 +1,9 @@
 import * as React from 'react';
 import './App.css';
 import { KindleService, DEFAULT_XML_PATH } from './services/KindleService';
-import Record from './components/Record';
+import Table from './components/Table';
 import { KindleComicSeries } from './models/kindle';
-
-const logo = require('./logo.svg');
+import { Card, CardHeader, CardBody, Input } from 'reactstrap';
 
 interface Props {}
 
@@ -34,26 +33,20 @@ class App extends React.Component<Props, State> {
   }
 
   render() {
-    const records = [];
-    for (let i = 0; i < this.state.series.length; i++) {
-      records.push(<Record key={i} kindleComicSeries={this.state.series[i]} />);
-    }
-
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Kindle Comics Dashboard</h1>
         </header>
-        <div>
-          <div>
-            Open the following file.<pre>{DEFAULT_XML_PATH}</pre>
-          </div>
-          <div>
-            <input type="file" onChange={e => this.readFile(e)} />
-          </div>
-        </div>
-        <div>{records}</div>
+        <Card className="App-input">
+          <CardHeader>
+            Open the following file(macOS):[ {DEFAULT_XML_PATH} ]
+          </CardHeader>
+          <CardBody>
+            <Input type="file" onChange={e => this.readFile(e)} />
+          </CardBody>
+        </Card>
+        <Table series={this.state.series} />
       </div>
     );
   }

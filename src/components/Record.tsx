@@ -35,16 +35,16 @@ class Record extends React.Component<Props> {
     );
 
     return (
-      <div className="Record">
-        <div className="Record-title">{title}</div>
-        <div className="Record-volumes">{numbers.length}</div>
-        <div className="Record-last-publication-date">
+      <tr className="Record">
+        <td className="Record-title">{title}</td>
+        <td className="Record-volumes">{numbers.length}</td>
+        <td className="Record-last-publication-date">
           {formatDate(latestPublicationDate)}
-        </div>
-        <div className="Record-next-publication-date">
+        </td>
+        <td className="Record-next-publication-date">
           {formatDate(nextPublicationDate)}
-        </div>
-      </div>
+        </td>
+      </tr>
     );
   }
 }

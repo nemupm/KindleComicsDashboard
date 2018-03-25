@@ -1,9 +1,0 @@
-.Record {
-  display: table-row;
-}
-
-.Record div {
-  display: table-cell;
-
-  padding: 5px 10px;
-}

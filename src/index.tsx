@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import thunkMiddleware from 'redux-thunk';
 import { kindle } from './reducers/index';
 import { StoreState } from './types/index';
 
@@ -11,13 +12,17 @@ import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const store = createStore<StoreState>(kindle, {
-  series: [],
-  filters: {
-    minimumVolumes: 0,
-    onlyNextVolumePublished: false
-  }
-});
+const store = createStore<StoreState>(
+  kindle,
+  {
+    series: [],
+    filters: {
+      minimumVolumes: 0,
+      onlyNextVolumePublished: false
+    }
+  },
+  applyMiddleware(thunkMiddleware)
+);
 
 ReactDOM.render(
   <Provider store={store}>

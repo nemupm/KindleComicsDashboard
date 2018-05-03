@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { KindleService, DEFAULT_XML_PATH } from '../services/KindleService';
+import { DEFAULT_XML_PATH } from '../services/KindleService';
 import { KindleComicSeries } from '../models/kindle';
 import { Card, CardHeader, CardBody, Input } from 'reactstrap';
 import Table from './Table';
@@ -10,7 +10,7 @@ export interface Props {
     minimumVolumes: number;
     onlyNextVolumePublished: boolean;
   };
-  loadKindle: (series: KindleComicSeries[]) => void;
+  readXML: (event: React.ChangeEvent<HTMLInputElement>) => void;
   updateFilter: (
     filters: {
       minimumVolumes: number;
@@ -19,20 +19,7 @@ export interface Props {
   ) => void;
 }
 
-function Kindle({ series, filters, loadKindle, updateFilter }: Props) {
-  function readFile(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files && event.target.files[0];
-    if (!file) {
-      return;
-    }
-    const reader = new FileReader();
-    reader.readAsText(file);
-    reader.onload = () => {
-      const kindleService = new KindleService(reader.result);
-      loadKindle(kindleService.getKindleComicSeries());
-    };
-  }
-
+function Kindle({ series, filters, readXML, updateFilter }: Props) {
   return (
     <div className="Kindle">
       <Card className="Kindle-input">
@@ -40,7 +27,7 @@ function Kindle({ series, filters, loadKindle, updateFilter }: Props) {
           Open the following file(macOS):[ {DEFAULT_XML_PATH} ]
         </CardHeader>
         <CardBody>
-          <Input type="file" onChange={e => readFile(e)} />
+          <Input type="file" onChange={e => readXML(e)} />
         </CardBody>
       </Card>
       <Table series={series} filters={filters} />

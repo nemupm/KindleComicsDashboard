@@ -2,7 +2,6 @@ import Kindle from '../components/Kindle';
 import * as actions from '../actions/';
 import { StoreState } from '../types/index';
 import { connect, Dispatch } from 'react-redux';
-import { KindleComicSeries } from '../models/kindle';
 
 export function mapStateToProps({ series, filters }: StoreState) {
   return {
@@ -13,8 +12,8 @@ export function mapStateToProps({ series, filters }: StoreState) {
 
 export function mapDispatchToProps(dispatch: Dispatch<actions.KindleAction>) {
   return {
-    loadKindle: (series: KindleComicSeries[]) =>
-      dispatch(actions.loadKindle(series)),
+    readXML: (event: React.ChangeEvent<HTMLInputElement>) =>
+      dispatch(actions.readXML(event)),
     updateFilter: (filters: {
       minimumVolumes: number;
       onlyNextVolumePublished: boolean;

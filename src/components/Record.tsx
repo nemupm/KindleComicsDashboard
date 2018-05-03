@@ -11,7 +11,7 @@ class Record extends React.Component<Props> {
   render() {
     return (
       <tr className="Record">
-        <td className="Record-title">{this.props.kindleComicSeries}</td>
+        <td className="Record-title">{this.props.kindleComicSeries.title}</td>
         <td className="Record-volumes">
           {this.props.kindleComicSeries.numbers.length}
         </td>

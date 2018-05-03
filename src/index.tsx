@@ -17,8 +17,8 @@ const store = createStore<StoreState>(
   {
     series: [],
     filters: {
-      minimumVolumes: 0,
-      onlyNextVolumePublished: false
+      minimumVolumes: 3,
+      onlyNextVolumePublished: true
     }
   },
   applyMiddleware(thunkMiddleware)

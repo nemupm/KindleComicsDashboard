@@ -5,10 +5,6 @@ import Record from './Record';
 
 export interface Props {
   series: KindleComicSeries[];
-  filters: {
-    minimumVolumes: number;
-    onlyNextVolumePublished: boolean;
-  };
 }
 
 class Table extends React.Component<Props> {

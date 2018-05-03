@@ -1,25 +1,13 @@
 import * as React from 'react';
 import { DEFAULT_XML_PATH } from '../services/KindleService';
-import { KindleComicSeries } from '../models/kindle';
 import { Card, CardHeader, CardBody, Input } from 'reactstrap';
-import Table from './Table';
+import Table from '../containers/Table';
 
 export interface Props {
-  series: KindleComicSeries[];
-  filters: {
-    minimumVolumes: number;
-    onlyNextVolumePublished: boolean;
-  };
   readXML: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  updateFilter: (
-    filters: {
-      minimumVolumes: number;
-      onlyNextVolumePublished: boolean;
-    }
-  ) => void;
 }
 
-function Kindle({ series, filters, readXML, updateFilter }: Props) {
+function Kindle({ readXML }: Props) {
   return (
     <div className="Kindle">
       <Card className="Kindle-input">
@@ -30,7 +18,7 @@ function Kindle({ series, filters, readXML, updateFilter }: Props) {
           <Input type="file" onChange={e => readXML(e)} />
         </CardBody>
       </Card>
-      <Table series={series} filters={filters} />
+      <Table />
     </div>
   );
 }

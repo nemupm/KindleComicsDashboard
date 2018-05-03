@@ -49,13 +49,20 @@ export class KindleService {
         (comicId: number) => comics[comicId]
       );
       const kindleComicSeries: KindleComicSeries = {
+        title: '',
         titleLeft: '',
         titleRight: '',
         author: seriesComics[0].author,
-        comics: seriesComics,
-        publicationIntervalDays: DEFAULT_INTERVAL_DAYS
+        comics: seriesComics.sort(
+          (a, b) => a.publicationDate.getTime() - b.publicationDate.getTime()
+        ),
+        publicationIntervalDays: DEFAULT_INTERVAL_DAYS,
+        numbers: [],
+        latestPublicationDate: new Date(),
+        nextPublicationDate: new Date()
       };
 
+      // set titleLeft/Right
       if (seriesComics.length === 1) {
         kindleComicSeries.titleLeft = seriesComics[0].title;
       } else {
@@ -73,6 +80,38 @@ export class KindleService {
           seriesComics.map(comic => comic.publicationDate)
         );
       }
+
+      // extract and set numbers
+      kindleComicSeries.numbers = kindleComicSeries.comics.map(comic => {
+        return comic.title
+          .replace(kindleComicSeries.titleLeft, '')
+          .replace(kindleComicSeries.titleRight, '');
+      });
+
+      // set title
+      kindleComicSeries.title =
+        kindleComicSeries.titleLeft +
+        (kindleComicSeries.numbers.length > 1
+          ? `${kindleComicSeries.numbers[0]} ~ ${
+              kindleComicSeries.numbers[kindleComicSeries.numbers.length - 1]
+            }`
+          : '') +
+        kindleComicSeries.titleRight;
+
+      // extract and set latest publication date
+      kindleComicSeries.latestPublicationDate =
+        kindleComicSeries.comics[
+          kindleComicSeries.comics.length - 1
+        ].publicationDate;
+
+      // calculate latest publication date
+      kindleComicSeries.nextPublicationDate = new Date(
+        kindleComicSeries.latestPublicationDate.getTime()
+      );
+      kindleComicSeries.nextPublicationDate.setDate(
+        kindleComicSeries.latestPublicationDate.getDate() +
+          kindleComicSeries.publicationIntervalDays
+      );
 
       res.push(kindleComicSeries);
     }

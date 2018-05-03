@@ -6,9 +6,13 @@ export interface KindleComic {
 }
 
 export interface KindleComicSeries {
+  title: string;
   titleLeft: string;
   titleRight: string;
   author: string;
   comics: KindleComic[];
   publicationIntervalDays: number;
+  numbers: string[];
+  latestPublicationDate: Date;
+  nextPublicationDate: Date;
 }

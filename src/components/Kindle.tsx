@@ -12,7 +12,10 @@ function Kindle({ readXML }: Props) {
     <div className="Kindle">
       <Card className="Kindle-input">
         <CardHeader>
-          Open the following file(macOS):[ {DEFAULT_XML_PATH} ]
+          Open the following file(macOS):[ {DEFAULT_XML_PATH} ] <br />
+          You can open the file by drag and drop it to the form button. <br />
+          The file will never be uploaded to any servers and only processed in
+          your browser.
         </CardHeader>
         <CardBody>
           <Input type="file" onChange={e => readXML(e)} />

@@ -1,0 +1,5 @@
+.KindleForm {
+  display: grid;
+  grid-template-columns: 1fr 100px 250px 50px;
+  align-items: center;
+}

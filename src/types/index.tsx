@@ -1,9 +1,13 @@
 import { KindleComicSeries } from '../models/kindle';
+import { FormState } from 'redux-form';
 
 export interface StoreState {
-  series: KindleComicSeries[];
-  filters: {
-    minimumVolumes: number;
-    onlyNextVolumePublished: boolean;
+  kindle: KindleState;
+  form: {
+    kindleForm: FormState;
   };
+}
+
+export interface KindleState {
+  series: KindleComicSeries[];
 }

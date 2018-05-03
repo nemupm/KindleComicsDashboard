@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import { reducer as reduxFormReducer } from 'redux-form';
 import thunkMiddleware from 'redux-thunk';
 import { kindle } from './reducers/index';
 import { StoreState } from './types/index';
@@ -13,14 +14,10 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const store = createStore<StoreState>(
-  kindle,
-  {
-    series: [],
-    filters: {
-      minimumVolumes: 3,
-      onlyNextVolumePublished: true
-    }
-  },
+  combineReducers({
+    kindle: kindle,
+    form: reduxFormReducer
+  }),
   applyMiddleware(thunkMiddleware)
 );
 

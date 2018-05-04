@@ -1,7 +1,7 @@
 import { KindleComic, KindleComicSeries } from '../models/kindle';
 const XMLParser = require('react-xml-parser');
 
-const MAX_DISTANCE = 3;
+const MAX_DISTANCE = 4;
 const DEFAULT_INTERVAL_DAYS = 180;
 const DAY_MILLISECONDS = 60 * 60 * 24 * 1000;
 
@@ -33,6 +33,10 @@ export class KindleService {
           metaData.getElementsByTagName('publication_date')[0].value.trim()
         )
       };
+
+      // preprocessing
+      comic.title = this.processTitle(comic.title);
+
       comics.push(comic);
     }
     return comics;
@@ -156,7 +160,7 @@ export class KindleService {
           );
 
           // add comic to existing group
-          if (distance <= MAX_DISTANCE) {
+          if (distance <= MAX_DISTANCE && distance < comic.title.length / 2) {
             comicGroups[groupId].push(comic.id);
             myGroupId = groupId;
           }
@@ -189,6 +193,7 @@ export class KindleService {
     return comicGroups;
   }
 
+  // substitute cost: 2
   private calculateLevenshteinDistance(str1: string, str2: string): number {
     const dp = new Array(str1.length + 1);
     for (let y = 0; y <= str1.length; y++) {
@@ -204,7 +209,7 @@ export class KindleService {
 
     for (let i = 1; i <= str1.length; i++) {
       for (let j = 1; j <= str2.length; j++) {
-        const cost = str1[i] === str2[j] ? 0 : 1;
+        const cost = str1[i] === str2[j] ? 0 : 2;
         dp[i][j] = Math.min(
           dp[i - 1][j] + 1,
           dp[i][j - 1] + 1,
@@ -255,5 +260,11 @@ export class KindleService {
     const average = sum / diffDates.length;
 
     return average;
+  }
+
+  private processTitle(title: string): string {
+    return title
+      .replace('(Japanese Edition)', '')
+      .replace(/\([^()]*(コミ|シリーズ|COMI)[^()]*\)/g, '');
   }
 }
